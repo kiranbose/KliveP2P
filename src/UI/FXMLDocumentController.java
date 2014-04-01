@@ -8,7 +8,9 @@ package UI;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ListView;
 
 /**
  * FXML Controller class
@@ -20,6 +22,10 @@ public class FXMLDocumentController implements Initializable {
     /**
      * Initializes the controller class.
      */
+    @FXML
+    ListView VODList;
+    @FXML
+    ListView liveStreamList;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO

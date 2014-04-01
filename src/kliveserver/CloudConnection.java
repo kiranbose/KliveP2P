@@ -33,6 +33,7 @@ public class CloudConnection extends Thread{
     public CloudConnection() {
         this.cloudSock = null;
         cloudOut = null;
+        this.setDaemon(true);
     }
     
     @Override
