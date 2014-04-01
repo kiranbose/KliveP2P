@@ -75,6 +75,7 @@ public class LoginscreenController implements Initializable {
             noUsernameError.setVisible(false);
         }
         Globals.GlobalData.cloudIP = cloudIP.getText();
+        Globals.GlobalData.UserID = userNameField.getText();
         Globals.log.message("attempting to connect to cloud server at "+Globals.GlobalData.cloudIP+":"+Globals.GlobalData.cloudPort);
          CloudConnection connection = new CloudConnection();
          connection.start();

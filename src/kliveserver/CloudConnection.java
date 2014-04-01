@@ -28,6 +28,7 @@ import java.util.TimerTask;
 public class CloudConnection extends Thread{
     Socket cloudSock;
     DataOutputStream cloudOut;
+    DataInputStream cloudIn;
     public volatile static boolean connecting = false;
     public CloudConnection() {
         this.cloudSock = null;
@@ -44,13 +45,16 @@ public class CloudConnection extends Thread{
             connecting = true;
             cloudSock = new Socket(InetAddress.getByName(Globals.GlobalData.cloudIP), Globals.GlobalData.cloudPort);
             cloudOut = new DataOutputStream(cloudSock.getOutputStream());
-            DataInputStream dis = new DataInputStream(cloudSock.getInputStream());
+            cloudIn = new DataInputStream(cloudSock.getInputStream());
             Globals.log.message("connected to cloud. showing main ui");
             ShowMainUI mainui = new ShowMainUI();
             mainui.show();
+            Globals.log.message("Sending control message to cloud.");
+            cloudOut.writeBytes("control\r\n");
+            cloudOut.writeBytes(Globals.GlobalData.UserID+"\r\n");
             while(true)
             {
-                String request = dis.readLine();
+                String request = cloudIn.readLine();
                 if(request.equalsIgnoreCase("getChannels"))
                 {
                     Globals.log.message(": getChannels ");
