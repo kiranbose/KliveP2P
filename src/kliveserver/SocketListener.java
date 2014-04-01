@@ -21,7 +21,7 @@ public class SocketListener extends Thread{
         super.run(); //To change body of generated methods, choose Tools | Templates.
         try{
             ServerSocket server = new ServerSocket(port);
-            Globals.log.message("kLiveSever started on port "+port);
+            Globals.log.message("kLiveP2P started on port "+port);
             Socket clientSocket;
             DataInputStream dis;
             while(true)

@@ -22,6 +22,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import kliveserver.CloudConnection;
 
 /**
  * FXML Controller class
@@ -34,22 +35,23 @@ public class LoginscreenController implements Initializable {
      * Initializes the controller class.
      */
     @FXML
-    private AnchorPane pane;
+    public AnchorPane pane;
     @FXML
-    Button button;
+    public Button button;
     @FXML
-    TextField userNameField;
+    public TextField userNameField;
     @FXML
-    Text enterCloudIP;
+    public Text enterCloudIP;
     @FXML
-    VBox connectionError;
+    public VBox connectionError;
     @FXML
-    TextField cloudIP;
+    public TextField cloudIP;
     @FXML
-    Text noUsernameError;
+    public Text noUsernameError;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        ShowLoginScreen.controller = this;
     }
     
      @FXML
@@ -72,6 +74,10 @@ public class LoginscreenController implements Initializable {
             enterCloudIP.setVisible(false);
             noUsernameError.setVisible(false);
         }
+        Globals.GlobalData.cloudIP = cloudIP.getText();
+        Globals.log.message("attempting to connect to cloud server at "+Globals.GlobalData.cloudIP+":"+Globals.GlobalData.cloudPort);
+         CloudConnection connection = new CloudConnection();
+         connection.start();
      }
     
 }

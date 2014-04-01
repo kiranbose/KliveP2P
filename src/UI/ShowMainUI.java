@@ -18,9 +18,9 @@ import javafx.scene.Scene;
  *
  * @author home
  */
-public class ShowLoginScreen {
-    public static LoginscreenController controller = null;
-    public ShowLoginScreen() {
+public class ShowMainUI {
+    public static FXMLDocumentController mainUIController = null;
+    public ShowMainUI() {
     }
     
     public void show()
@@ -30,7 +30,7 @@ public class ShowLoginScreen {
             public void run() {
                 //javaFX operations should go here
                 try {
-                    Parent root = FXMLLoader.load(klivep2p.KliveP2P.class.getResource("/UI/loginscreen.fxml"));
+                    Parent root = FXMLLoader.load(klivep2p.KliveP2P.class.getResource("/UI/FXMLDocument.fxml"));
 
                     Scene scene = new Scene(root,757,566);
 

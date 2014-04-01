@@ -6,6 +6,7 @@
 
 package klivep2p;
 
+import UI.ShowLoginScreen;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -22,18 +23,17 @@ import kliveserver.SocketListener;
  * @author home
  */
 public class KliveP2P extends Application {
-    
+    public static Stage mainStage;
       @Override
     public void start(Stage stage) throws Exception {
+        mainStage = stage;
         Globals.GlobalData.init();
         SocketListener server = new SocketListener();
+        server.setDaemon(true);
         server.StartServerOn(Globals.GlobalData.serverPort);
-        Parent root = FXMLLoader.load(getClass().getResource("/UI/loginscreen.fxml"));
-        
-        Scene scene = new Scene(root,757,566);
-        
-        stage.setScene(scene);
-        stage.show();
+        ShowLoginScreen login = new ShowLoginScreen();
+        login.show();
+        System.err.println("asfjfkfvkudsagljgsadljfgdsljfgjdsa");
     }
 
     /**

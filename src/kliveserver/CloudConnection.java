@@ -7,12 +7,16 @@
 package kliveserver;
 
 import RTP.RTPFileGenerator;
+import UI.LoginscreenController;
+import UI.ShowLoginScreen;
+import UI.ShowMainUI;
 import VideoStore.VideoDetails;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -22,15 +26,12 @@ import java.util.TimerTask;
  * @author home
  */
 public class CloudConnection extends Thread{
-    Socket sock;
-    
+    Socket cloudSock;
+    DataOutputStream cloudOut;
+    public volatile static boolean connecting = false;
     public CloudConnection() {
-        this.sock = null;
-    }
-
-    public OutputStream getOutputStream() throws IOException
-    {
-        return sock.getOutputStream();
+        this.cloudSock = null;
+        cloudOut = null;
     }
     
     @Override
@@ -38,7 +39,15 @@ public class CloudConnection extends Thread{
         super.run(); 
         //send stream details to peer
         try {
-            DataInputStream dis = new DataInputStream(sock.getInputStream());
+            if(connecting)
+                return;
+            connecting = true;
+            cloudSock = new Socket(InetAddress.getByName(Globals.GlobalData.cloudIP), Globals.GlobalData.cloudPort);
+            cloudOut = new DataOutputStream(cloudSock.getOutputStream());
+            DataInputStream dis = new DataInputStream(cloudSock.getInputStream());
+            Globals.log.message("connected to cloud. showing main ui");
+            ShowMainUI mainui = new ShowMainUI();
+            mainui.show();
             while(true)
             {
                 String request = dis.readLine();
@@ -46,17 +55,14 @@ public class CloudConnection extends Thread{
                 {
                     Globals.log.message(": getChannels ");
                 }
-                else if(request.equalsIgnoreCase("close"))
-                {
-                    Globals.log.message(": closed ");
-                    dis.close();
-                    sock.close();
-                    break;
-                }
-                    
             }
         } catch (Exception e) {
             e.printStackTrace();
+            Globals.log.error("cloud connection terminated relogin.");
+            ShowLoginScreen login = new ShowLoginScreen();
+            login.show();
+            ShowLoginScreen.controller.connectionError.setVisible(true);
         }
+        connecting = false;
     }
 }
