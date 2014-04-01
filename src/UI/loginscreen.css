@@ -1,0 +1,40 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.mainFxmlClass {
+
+    
+    
+}
+#pane{
+    -fx-background-image: url("sample.jpg");
+    -fx-background-repeat: stretch;   
+    -fx-background-size: 100% 100%;
+    -fx-background-position: center center;
+    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0); 
+}
+.button {
+    -fx-text-fill: black;
+    -fx-font-family: "Myriad Pro";
+    -fx-font-weight: bold;
+    -fx-alignment: BOTTOM_CENTER;
+    -fx-background-color: linear-gradient(#F9F9F9,#E6E6E6);
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+}
+
+.button:hover {
+     -fx-text-fill: white;
+    -fx-font-family: "Myriad Pro";
+    -fx-font-weight: bold;
+    -fx-alignment: BOTTOM_CENTER;
+    -fx-background-color: linear-gradient(#5195CE,#005DB3);
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+}
+
+.Line {
+    -fx-scale-shape:true;
+    -fx-shape-repeat: strech;
+    -fx-shape-size: 100% 100%;
+    -fx-position-shape:true;
+}

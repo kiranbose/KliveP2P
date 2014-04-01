@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="pane" prefHeight="566.0" prefWidth="757.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="UI.LoginscreenController">
+  <children>
+    <VBox id="VBox" alignment="CENTER" spacing="5.0" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="43.0" AnchorPane.rightAnchor="55.0">
+      <children>
+        <Line id="line" disable="false" endX="424.0" endY="222.0" focusTraversable="true" pickOnBounds="true" scaleX="1.0" scaleY="1.0" scaleZ="1.0" startX="-233.0" startY="222.0" stroke="#dfdfdf" strokeLineJoin="ROUND" strokeType="OUTSIDE" visible="true" VBox.vgrow="ALWAYS">
+          <effect>
+            <Glow level="0.8786163522012578" />
+          </effect>
+        </Line>
+        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="© 2014 CopyRight. All rights Reserced L Kiran Bose, Prof.P.VenkataKrishna" />
+        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="VIT University, Vellore" />
+      </children>
+    </VBox>
+    <GridPane prefHeight="344.0" prefWidth="526.0" AnchorPane.bottomAnchor="111.0" AnchorPane.leftAnchor="116.0" AnchorPane.rightAnchor="115.0" AnchorPane.topAnchor="111.0">
+      <children>
+        <Label alignment="CENTER" prefWidth="542.0" text="KLive P2P" textFill="#404040" GridPane.columnIndex="0" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.vgrow="ALWAYS">
+          <effect>
+            <Glow level="0.7465408805031446" />
+          </effect>
+          <font>
+            <Font name="MyriadPro-Regular" size="50.0" />
+          </font>
+        </Label>
+        <Label alignment="CENTER" contentDisplay="TEXT_ONLY" prefWidth="262.5" text="Username :" textAlignment="CENTER" textFill="#606060" wrapText="true" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
+          <effect>
+            <Glow level="0.4446540880503145" />
+          </effect>
+          <font>
+            <Font name="MyriadPro-Regular" size="22.0" />
+          </font>
+        </Label>
+        <VBox id="VBox" alignment="CENTER" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+          <children>
+            <TextField fx:id="userNameField" alignment="CENTER" maxWidth="-Infinity" prefHeight="34.0" prefWidth="263.0" promptText="Enter user name" />
+            <Text fx:id="noUsernameError" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Username" visible="false">
+              <effect>
+                <Glow level="0.8786163522012578" />
+              </effect>
+            </Text>
+          </children>
+        </VBox>
+        <Button fx:id="button" contentDisplay="CENTER" minHeight="15.9609375" mnemonicParsing="false" onAction="#login" prefHeight="27.0" prefWidth="169.0" text="Connect to KLiveCloud" GridPane.columnIndex="0" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+      </children>
+      <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      </columnConstraints>
+      <rowConstraints>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      </rowConstraints>
+    </GridPane>
+    <VBox id="VBox" fx:id="connectionError" alignment="CENTER" prefHeight="34.0" prefWidth="669.0" spacing="5.0" visible="false" AnchorPane.bottomAnchor="88.0" AnchorPane.leftAnchor="43.0" AnchorPane.rightAnchor="45.0">
+      <children>
+        <Text fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Clould not connect to Cloud">
+          <effect>
+            <Glow level="0.8786163522012578" />
+          </effect>
+        </Text>
+        <Text fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="check your internet connection">
+          <effect>
+            <Glow level="0.8786163522012578" />
+          </effect>
+        </Text>
+      </children>
+    </VBox>
+    <VBox id="VBox" alignment="CENTER" spacing="5.0" AnchorPane.bottomAnchor="47.0" AnchorPane.rightAnchor="55.0">
+      <children>
+        <TextField fx:id="cloudIP" opacity="0.67" prefWidth="183.87890625" promptText="Enter Cloud Ip Address">
+          <effect>
+            <ColorAdjust brightness="-0.01526717557251911" contrast="-0.06106870229007633" hue="0.2137404580152671" saturation="-0.5496183206106872" />
+          </effect>
+        </TextField>
+        <Text fx:id="enterCloudIP" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Cloud Ip address to continue" visible="false">
+          <effect>
+            <Glow level="0.41949685534591197" />
+          </effect>
+          <font>
+            <Font name="MyriadPro-Regular" size="12.0" />
+          </font>
+        </Text>
+      </children>
+    </VBox>
+  </children>
+  <stylesheets>
+    <URL value="@loginscreen.css" />
+  </stylesheets>
+</AnchorPane>
