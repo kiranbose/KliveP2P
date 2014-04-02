@@ -48,7 +48,7 @@
                         <Button id="" fx:id="browsebutton" mnemonicParsing="false" onMouseClicked="#browseFile" text="Browse" />
                       </children>
                     </HBox>
-                    <Button fx:id="uploadbutton" mnemonicParsing="false" prefWidth="77.33599853515625" text="Upload" />
+                    <Button id="uploadbutton" fx:id="uploadButton" mnemonicParsing="false" onMouseClicked="#uploadToCloud" prefWidth="77.33599853515625" text="Upload" />
                   </children>
                 </VBox>
                 <ProgressBar fx:id="progressbar" prefWidth="200.0" progress="0.0" visible="false" />

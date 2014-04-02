@@ -60,7 +60,7 @@ public class CloudConnection extends Thread{
             while(true)
             {
                 String response = cloudIn.readLine();
-                if(response.equalsIgnoreCase("video"))
+                if(response.equalsIgnoreCase("video")||response.equalsIgnoreCase("NewVideoAvailable"))
                 {
                     String video=cloudIn.readLine();
                     Globals.GlobalData.videoLibrary.updateVideodetails(video);

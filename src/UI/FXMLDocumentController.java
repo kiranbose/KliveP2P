@@ -25,6 +25,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
+import uploaddownload.KliveUploadFile;
 
 
 /**
@@ -71,6 +72,13 @@ public class FXMLDocumentController implements Initializable {
         fileChooser.setTitle("Open Resource File");
         File file = fileChooser.showOpenDialog(klivep2p.KliveP2P.mainStage);
         fileName.setText(file.getCanonicalPath());
+     }
+     
+     @FXML
+     public void uploadToCloud(MouseEvent evt) throws IOException
+     {
+         KliveUploadFile up = new KliveUploadFile(fileName.getText());
+         up.start();
      }
 
     }    

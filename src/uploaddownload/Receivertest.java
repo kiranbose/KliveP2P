@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package test;
+package uploaddownload;
 
 import java.io.*;
 import java.net.DatagramPacket;
