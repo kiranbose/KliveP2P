@@ -25,11 +25,7 @@
               <content>
                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                   <children>
-                    <ScrollPane prefHeight="117.0" prefWidth="443.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                      <content>
-                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
-                      </content>
-                    </ScrollPane>
+                    <TextArea id="logPrint" fx:id="logArea" editable="false" prefHeight="117.0" prefWidth="443.0" text="" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                   </children>
                 </AnchorPane>
               </content>
@@ -55,7 +51,7 @@
                     <Button fx:id="uploadbutton" mnemonicParsing="false" prefWidth="77.33599853515625" text="Upload" />
                   </children>
                 </VBox>
-                <ProgressBar fx:id="progressbar" prefWidth="200.0" progress="0.0" />
+                <ProgressBar fx:id="progressbar" prefWidth="200.0" progress="0.0" visible="false" />
               </children>
             </VBox>
           </children>
@@ -83,7 +79,7 @@
                       <content>
                         <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                           <children>
-                            <ListView fx:id="VODList" prefHeight="238.0" prefWidth="154.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                            <ListView fx:id="VODList" onMouseClicked="#VODClicked" prefHeight="238.0" prefWidth="154.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                           </children>
                         </AnchorPane>
                       </content>

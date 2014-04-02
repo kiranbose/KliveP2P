@@ -8,8 +8,8 @@ package kliveserver;
 
 import RTP.RTPFileGenerator;
 import UI.LoginscreenController;
-import UI.ShowLoginScreen;
-import UI.ShowMainUI;
+import UI.LoginScreen;
+import UI.MainUI;
 import VideoStore.VideoDetails;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -29,6 +29,7 @@ public class CloudConnection extends Thread{
     Socket cloudSock;
     DataOutputStream cloudOut;
     DataInputStream cloudIn;
+    PrintStream toCloud;
     public volatile static boolean connecting = false;
     public CloudConnection() {
         this.cloudSock = null;
@@ -46,28 +47,54 @@ public class CloudConnection extends Thread{
             connecting = true;
             cloudSock = new Socket(InetAddress.getByName(Globals.GlobalData.cloudIP), Globals.GlobalData.cloudPort);
             cloudOut = new DataOutputStream(cloudSock.getOutputStream());
+            toCloud = new PrintStream(cloudOut);
             cloudIn = new DataInputStream(cloudSock.getInputStream());
             Globals.log.message("connected to cloud. showing main ui");
-            ShowMainUI mainui = new ShowMainUI();
+            MainUI mainui = new MainUI();
             mainui.show();
+            while(MainUI.mainUIController == null){}
             Globals.log.message("Sending control message to cloud.");
-            cloudOut.writeBytes("control\r\n");
-            cloudOut.writeBytes(Globals.GlobalData.UserID+"\r\n");
+            toCloud.print("control\r\n");
+            toCloud.print(Globals.GlobalData.UserID+"\r\n");
+            toCloud.print("getChannels\r\n");
             while(true)
             {
-                String request = cloudIn.readLine();
-                if(request.equalsIgnoreCase("getChannels"))
+                String response = cloudIn.readLine();
+                if(response.equalsIgnoreCase("video"))
                 {
-                    Globals.log.message(": getChannels ");
+                    String video=cloudIn.readLine();
+                    Globals.GlobalData.videoLibrary.updateVideodetails(video);
+                    Globals.log.message("Video  on demand "+video);
+                    MainUI.reloadVideoListFromLibrary();
+                }
+                else if(response.equalsIgnoreCase("streaming"))
+                {
+                    String streaminVideo=cloudIn.readLine();
+                    Globals.GlobalData.videoLibrary.updateStreamdetails(streaminVideo);
+                    Globals.log.message("live video Stream"+streaminVideo);
+                    MainUI.reloadVideoListFromLibrary();
+                }
+                else if(response.equalsIgnoreCase("NewStreamLive"))
+                {
+                    String streaminVideo=cloudIn.readLine();
+                    Globals.GlobalData.videoLibrary.updateStreamdetails(streaminVideo);
+                    Globals.log.message("live video Stream"+streaminVideo);
+                    MainUI.reloadVideoListFromLibrary();
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
             Globals.log.error("cloud connection terminated relogin.");
-            ShowLoginScreen login = new ShowLoginScreen();
+            LoginScreen login = new LoginScreen();
             login.show();
-            ShowLoginScreen.controller.connectionError.setVisible(true);
+            LoginScreen.controller.connectionError.setVisible(true);
         }
         connecting = false;
+    }
+    public void requestStream(String filename)
+    {
+        Globals.log.message("Requesting streaming of filename "+filename);
+        toCloud.print("stream\r\n");
+        toCloud.print(filename+"\r\n");
     }
 }

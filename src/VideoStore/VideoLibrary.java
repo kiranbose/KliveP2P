@@ -58,7 +58,31 @@ public class VideoLibrary {
         VideoDetails obj=new VideoDetails();
         obj.fileName=fileEntry.getName();
         videoList.add(obj);
-        Globals.log.message("added video "+obj.fileName+" to library");
+        Globals.log.message("added video "+obj.fileName+" to library"); 
+    }
+    
+    public void updateVideodetails(String fileName)
+    {
+        VideoDetails obj = getVideoDetails(fileName);
+        if(obj == null)
+            obj=new VideoDetails();
+        obj.fileName=fileName;
+        obj.streamingLive = false;
+        if(getVideoDetails(fileName)==null)
+            videoList.add(obj);
+        Globals.log.message("video details added "+obj.fileName+" to library"); 
+    }
+    
+    public void updateStreamdetails(String fileName)
+    {
+        VideoDetails obj = getVideoDetails(fileName);
+        if(obj == null)
+            obj=new VideoDetails();
+        obj.fileName=fileName;
+        obj.streamingLive = true;
+        if(getVideoDetails(fileName)==null)
+            videoList.add(obj);
+        Globals.log.message("video details added "+obj.fileName+" to library"); 
     }
     
     public VideoDetails getVideoDetails(String videoFileName)

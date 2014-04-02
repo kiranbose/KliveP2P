@@ -51,7 +51,7 @@ public class LoginscreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        ShowLoginScreen.controller = this;
+        LoginScreen.controller = this;
     }
     
      @FXML
@@ -77,8 +77,8 @@ public class LoginscreenController implements Initializable {
         Globals.GlobalData.cloudIP = cloudIP.getText();
         Globals.GlobalData.UserID = userNameField.getText();
         Globals.log.message("attempting to connect to cloud server at "+Globals.GlobalData.cloudIP+":"+Globals.GlobalData.cloudPort);
-         CloudConnection connection = new CloudConnection();
-         connection.start();
+         Globals.GlobalData.connection = new CloudConnection();
+         Globals.GlobalData.connection.start();
      }
     
 }

@@ -7,6 +7,7 @@
 package Globals;
 
 import VideoStore.VideoLibrary;
+import kliveserver.CloudConnection;
 
 /**
  * All global data will be stored here.
@@ -19,7 +20,8 @@ public class GlobalData {
     public static int cloudPort = 8080;
     public static int serverPort = 8080;
     public static boolean logEnabled = true;
-    public static VideoLibrary videoLibrary;
+    public static VideoLibrary videoLibrary = null;
+    public static CloudConnection connection = null;
     public static void init()
     {
         videoLibrary = new VideoLibrary();

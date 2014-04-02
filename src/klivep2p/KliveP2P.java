@@ -6,7 +6,7 @@
 
 package klivep2p;
 
-import UI.ShowLoginScreen;
+import UI.LoginScreen;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -31,7 +31,7 @@ public class KliveP2P extends Application {
         SocketListener server = new SocketListener();
         server.setDaemon(true);
         server.StartServerOn(Globals.GlobalData.serverPort);
-        ShowLoginScreen login = new ShowLoginScreen();
+        LoginScreen login = new LoginScreen();
         login.show();
         System.err.println("asfjfkfvkudsagljgsadljfgdsljfgjdsa");
     }

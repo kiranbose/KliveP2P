@@ -18,9 +18,9 @@ import javafx.scene.Scene;
  *
  * @author home
  */
-public class ShowLoginScreen {
+public class LoginScreen {
     public static LoginscreenController controller = null;
-    public ShowLoginScreen() {
+    public LoginScreen() {
     }
     
     public void show()
