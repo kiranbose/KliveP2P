@@ -81,6 +81,13 @@ public class CloudConnection extends Thread{
                     Globals.log.message("live video Stream"+streaminVideo);
                     MainUI.reloadVideoListFromLibrary();
                 }
+                else if(response.equalsIgnoreCase("StreamDead"))
+                {
+                    String Video=cloudIn.readLine();
+                    Globals.GlobalData.videoLibrary.updateVideodetails(Video);
+                    Globals.log.message("video Stream ended"+Video);
+                    MainUI.reloadVideoListFromLibrary();
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

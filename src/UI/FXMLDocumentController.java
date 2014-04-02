@@ -6,6 +6,7 @@
 
 package UI;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -18,9 +19,12 @@ import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
 
 
 /**
@@ -39,6 +43,10 @@ public class FXMLDocumentController implements Initializable {
     public ListView liveStreamList;
     @FXML
     public TextArea logArea;
+    @FXML
+    Button browsebutton;
+    @FXML
+    TextField fileName;
     //@FXML
     //ScrollBar logPane;
     @Override
@@ -54,6 +62,15 @@ public class FXMLDocumentController implements Initializable {
         {
             Globals.GlobalData.connection.requestStream(VODList.getSelectionModel().getSelectedItem().toString());
         }
+     }
+     
+     @FXML
+     public void browseFile(MouseEvent evt) throws IOException
+     {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Resource File");
+        File file = fileChooser.showOpenDialog(klivep2p.KliveP2P.mainStage);
+        fileName.setText(file.getCanonicalPath());
      }
 
     }    

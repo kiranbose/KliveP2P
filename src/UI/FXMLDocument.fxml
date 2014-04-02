@@ -44,8 +44,8 @@
                   <children>
                     <HBox id="HBox" alignment="CENTER" spacing="5.0">
                       <children>
-                        <TextField opacity="0.62" prefWidth="247.0" promptText="Upload a new video File to the cloud" />
-                        <Button id="" fx:id="browsebutton" mnemonicParsing="false" text="Browse" />
+                        <TextField fx:id="fileName" opacity="0.62" prefWidth="247.0" promptText="Upload a new video File to the cloud" />
+                        <Button id="" fx:id="browsebutton" mnemonicParsing="false" onMouseClicked="#browseFile" text="Browse" />
                       </children>
                     </HBox>
                     <Button fx:id="uploadbutton" mnemonicParsing="false" prefWidth="77.33599853515625" text="Upload" />
