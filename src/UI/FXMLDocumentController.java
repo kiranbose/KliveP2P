@@ -61,7 +61,16 @@ public class FXMLDocumentController implements Initializable {
      {
         if(evt.getClickCount() == 2)   
         {
-            Globals.GlobalData.connection.requestStream(VODList.getSelectionModel().getSelectedItem().toString());
+            Globals.GlobalData.connection.requestStream(VODList.getSelectionModel().getSelectedItem().toString());           
+        }
+     }
+     
+       @FXML
+     public void liveStreamClicked(MouseEvent evt) throws IOException
+     {
+        if(evt.getClickCount() == 2)   
+        {
+            Globals.GlobalData.connection.requestStream(liveStreamList.getSelectionModel().getSelectedItem().toString());           
         }
      }
      

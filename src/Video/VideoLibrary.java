@@ -5,7 +5,7 @@
  * Populates Vector<videolist> and initialze videolist elements.
  */
 
-package VideoStore;
+package Video;
 
 
 import java.io.DataInputStream;

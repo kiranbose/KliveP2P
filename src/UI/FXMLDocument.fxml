@@ -66,7 +66,7 @@
                       <content>
                         <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" pickOnBounds="true" prefHeight="180.0" prefWidth="200.0">
                           <children>
-                            <ListView fx:id="liveStreamList" prefHeight="244.0" prefWidth="154.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                            <ListView fx:id="liveStreamList" onMouseClicked="#liveStreamClicked" prefHeight="244.0" prefWidth="154.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                           </children>
                         </AnchorPane>
                       </content>

@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package VideoStore;
+package Video;
 
 /**
  * Class to store details about a video and its rtp files.

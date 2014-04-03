@@ -20,6 +20,13 @@ public class log {
         if(MainUI.mainUIController!=null)
             MainUI.mainUIController.logArea.appendText(msg+"\r\n");
     }
+    public static void Progress(String msg)
+    {
+        if(GlobalData.logEnabled)
+            System.out.print(msg);
+        if(MainUI.mainUIController!=null)
+            MainUI.mainUIController.logArea.appendText(msg);
+    }
     public static void error(String msg)
     {
         if(GlobalData.logEnabled)

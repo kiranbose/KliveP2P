@@ -10,7 +10,7 @@ import RTP.RTPFileGenerator;
 import UI.LoginscreenController;
 import UI.LoginScreen;
 import UI.MainUI;
-import VideoStore.VideoDetails;
+import Video.VideoDetails;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -20,6 +20,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Timer;
 import java.util.TimerTask;
+import uploaddownload.ChunkCrawler;
 
 /**
  *
@@ -88,6 +89,14 @@ public class CloudConnection extends Thread{
                     Globals.log.message("video Stream ended"+Video);
                     MainUI.reloadVideoListFromLibrary();
                 }
+                else if(response.equalsIgnoreCase("currentStreamingchunk"))
+                {
+                    String Video=cloudIn.readLine();
+                    int currentStreamingChunk = Integer.parseInt(cloudIn.readLine());
+                    Globals.log.message("CurrentStreamingChuink for "+Video+" is chunk "+currentStreamingChunk);
+                    uploaddownload.ChunkCrawler crawlFrom = new ChunkCrawler(currentStreamingChunk,Video);
+                    crawlFrom.run();
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -98,10 +107,12 @@ public class CloudConnection extends Thread{
         }
         connecting = false;
     }
-    public void requestStream(String filename)
+    public void requestStream(String filename) throws IOException
     {
         Globals.log.message("Requesting streaming of filename "+filename);
         toCloud.print("stream\r\n");
+        toCloud.print(filename+"\r\n");
+        toCloud.print("getCurrentStreamingChunk\r\n");
         toCloud.print(filename+"\r\n");
     }
 }

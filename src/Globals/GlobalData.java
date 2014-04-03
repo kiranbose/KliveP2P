@@ -6,7 +6,7 @@
 
 package Globals;
 
-import VideoStore.VideoLibrary;
+import Video.VideoLibrary;
 import kliveserver.CloudConnection;
 
 /**
@@ -15,13 +15,16 @@ import kliveserver.CloudConnection;
  */
 public class GlobalData {
     public static String UserID = "USER"+System.currentTimeMillis();
-    public static String RTPVideoStorePath = "./KLiveServer/RTPVideos";
+    public static String RTPVideoStorePath = "C:\\Users\\home\\Videos\\KliveCache";
+    public static String ffplayPath = "C:\\Users\\home\\Documents\\ffmpeg\\bin\\ffplay.exe";
     public static String cloudIP = "";
     public static int cloudPort = 8080;
     public static int serverPort = 8080;
     public static boolean logEnabled = true;
     public static VideoLibrary videoLibrary = null;
     public static CloudConnection connection = null;
+    public static String RTPStreamingAddress="224.1.1.2";
+    public static int RTPStreamPort=9999;
     public static void init()
     {
         videoLibrary = new VideoLibrary();

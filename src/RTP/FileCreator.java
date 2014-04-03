@@ -7,7 +7,7 @@
 package RTP;
 
 
-import VideoStore.VideoDetails;
+import Video.VideoDetails;
 import java.io.*;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
