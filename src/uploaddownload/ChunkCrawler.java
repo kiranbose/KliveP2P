@@ -55,7 +55,7 @@ public class ChunkCrawler extends Thread
                 DataInputStream dis = new DataInputStream(receiveSocket.getInputStream());
                 PrintStream ps= new PrintStream(receiveSocket.getOutputStream());
                 ps.print("download\r\n");
-                ps.print("kiran\r\n");
+                ps.print(Globals.GlobalData.UserID+"\r\n");
                 ps.print(fileName+"\r\n");
                 ps.print("chunk"+i+"\r\n");
                 String msg=dis.readLine();
@@ -64,25 +64,35 @@ public class ChunkCrawler extends Thread
                 SendToFFMPeg sendObj= new SendToFFMPeg(rtpCachePath.getAbsolutePath(),offset);
                 sendObj.start();
                 MediaPlayer.restartMediaPlayer();
-                if(true)return;
-                while(!msg.equalsIgnoreCase("nochunk"))
+                int chunkDownloadTimedOUT = 0;
+                while(chunkDownloadTimedOUT <= 15)
                 {
-
                     if(i!=offset)
                     {
                         receiveSocket = new Socket(InetAddress.getByName(serverIp),serverPort);
                         ps= new PrintStream(receiveSocket.getOutputStream());
                         dis = new DataInputStream(receiveSocket.getInputStream());
                         ps.print("download\r\n");
-                        ps.print("kiran\r\n");
+                        ps.print(Globals.GlobalData.UserID+"\r\n");
                         ps.print(fileName+"\r\n");
                         ps.print("chunk"+i+"\r\n");
                         msg=dis.readLine();
                      }
-                    System.out.println(msg);
+                    if(msg.equalsIgnoreCase("nochunk"))//give 15 seconds for chunk download to succeed.
+                    {
+                        chunkDownloadTimedOUT += 2;
+                        ps.flush();
+                        ps.close();
+                        receiveSocket.close();
+                        Globals.log.error("chunk "+i+" noChunkin cloud. Waiting for 2 sec");
+                        sleep(2000);//check every 2 second
+                        continue;
+                    }
+                    else 
+                        chunkDownloadTimedOUT = 0;
                     int chunkSize=Integer.parseInt(dis.readLine());
-                    System.out.println(chunkSize);
-                    System.out.println("reading "+dis.readLine());
+                    Globals.log.message("chunk size "+chunkSize);
+                    Globals.log.message("reading "+dis.readLine());//data
                     File file = new File(rtpCachePath.getAbsolutePath()+"\\chunk"+i);
                     FileOutputStream fo=new FileOutputStream(file);
                     int sizeRead=0;    
@@ -91,9 +101,8 @@ public class ChunkCrawler extends Thread
                         sizeRead = dis.read(fileData);
                         if(sizeRead>=0)
                         fo.write(fileData,0,sizeRead);
-                        System.out.println(sizeRead);
                     }
-                    Globals.log.message("Chunk decoding complete ");
+                    Globals.log.message("Chunk"+i+" decoding complete ");
                     fo.close();
                     ps.flush();
                     ps.close();
@@ -108,6 +117,7 @@ public class ChunkCrawler extends Thread
            {
              e.printStackTrace();
            }
+        Globals.log.message("chunk download of "+fileName+" timedout ");
     }
 
 

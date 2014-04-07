@@ -61,7 +61,6 @@ public class KliveUploadFile extends Thread
             ps.println(Globals.GlobalData.UserID);
             ps.println(file.getName());
             ps.println(file.length());
-            ps.println();
             byte[] buffer = new byte[8096];
             int read = 0;
             int readtotal = 0;

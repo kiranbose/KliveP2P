@@ -8,6 +8,7 @@ package uploaddownload;
 
 import Globals.GlobalData;
 import java.io.DataInputStream;
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -69,13 +70,22 @@ public class SendToFFMPeg extends Thread
             short prevTimeStamp = -1;
             FileInputStream fin = new FileInputStream(chunk);
             DataInputStream dis = new DataInputStream(fin);
-             while(!stopThread)
+            int chunkDownloadTimedOUT = 0;
+             while(!stopThread && chunkDownloadTimedOUT <= 15)
             {
                 if(dis.available()<=0)
                 {
+                    chunk=new File(RTPCachePath+"\\chunk"+(i+1));
+                    if(!chunk.exists()||!chunk.canRead())
+                    {
+                        Globals.log.error("chunk "+(i+1)+" not cached. Waiting for 2 sec");
+                        Thread.sleep(2000);
+                        chunkDownloadTimedOUT += 2;
+                        continue;
+                    }
                     i++;
+                    
                     Globals.log.Progress("."+i);
-                    chunk=new File(RTPCachePath+"\\chunk"+i);
                     dis.close();
                     fin.close();
                     fin = new FileInputStream(chunk);
@@ -87,17 +97,25 @@ public class SendToFFMPeg extends Thread
                         tStart = System.currentTimeMillis();
                     }
                 }
-                int toRead = dis.readInt();
-                short timeStamp = dis.readShort();
-                dis.readFully(fileData,0,toRead);
+                try{
+                    int toRead = dis.readInt();
+                    short timeStamp = dis.readShort();
+                    dis.readFully(fileData,0,toRead);
 
-                //dis.read(fileData, 0, toRead);
-                sendPacket.setData(fileData,0,toRead);
-                sendSocket.send(sendPacket);
-                if(timeStamp!=prevTimeStamp)
+                    //dis.read(fileData, 0, toRead);
+                    sendPacket.setData(fileData,0,toRead);
+                    sendSocket.send(sendPacket);
+                    if(timeStamp!=prevTimeStamp)
+                    {
+                        prevTimeStamp = timeStamp;
+
+                    }
+                }
+                catch(EOFException e)
                 {
-                    prevTimeStamp = timeStamp;
-                    
+                    Globals.log.error("EOF Exception while reading chunk "+(i+1)+" Waiting for 5 sec");
+                    Thread.sleep(5000);
+                    e.printStackTrace();
                 }
             }
             //dis.close();
