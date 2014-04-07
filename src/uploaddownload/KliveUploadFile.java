@@ -65,12 +65,17 @@ public class KliveUploadFile extends Thread
             int read = 0;
             int readtotal = 0;
             ByteBuffer wrapped = ByteBuffer.wrap(buffer);
+            UI.MainUI.mainUIController.progressbar.setVisible(true);
+            UI.MainUI.mainUIController.progressbar.setProgress(0);
+            Globals.log.message("initiating upload");
             while ((read = fis.read(buffer)) != -1) 
             {
                 readtotal = read + readtotal;
-                //Globals.log.message("Writing :" + read + ", Total written:" + readtotal);
+                UI.MainUI.mainUIController.progressbar.setProgress((double)readtotal/(double)file.length());
                 dos.write(buffer,0,read);
             }
+            Globals.log.message("upload complete");
+            UI.MainUI.mainUIController.progressbar.setVisible(false);
             ps.flush();
             ps.close();
             fis.close();
@@ -80,6 +85,7 @@ public class KliveUploadFile extends Thread
         catch (Exception e)
         {
             e.printStackTrace();
+            Globals.log.error("file upload encountered an exception");
         }
 
     }

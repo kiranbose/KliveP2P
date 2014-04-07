@@ -21,6 +21,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -48,6 +49,8 @@ public class FXMLDocumentController implements Initializable {
     Button browsebutton;
     @FXML
     TextField fileName;
+    @FXML
+    public ProgressBar progressbar;
     //@FXML
     //ScrollBar logPane;
     @Override
