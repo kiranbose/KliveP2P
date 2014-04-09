@@ -26,7 +26,10 @@ public class ChunkCrawler extends Thread
     String RTPCachePath;
     String fileName;
     int i;
-    int offset;
+    int startOffset;
+    
+    static volatile int lock = 0;
+    int mylock;
 
     public ChunkCrawler(int currentStreamingChunk,String video) 
     {
@@ -34,8 +37,9 @@ public class ChunkCrawler extends Thread
         serverPort=Globals.GlobalData.cloudPort;
         RTPCachePath = Globals.GlobalData.RTPVideoStorePath;
         i=currentStreamingChunk;
-        offset=currentStreamingChunk;
+        startOffset=currentStreamingChunk;
         fileName=video;
+        mylock = lock++;
     }
     @Override
     public void run() 
@@ -61,19 +65,24 @@ public class ChunkCrawler extends Thread
                 String msg=dis.readLine();
                 Globals.log.message("Receiving chunks for decoding ");
                 int chunkDownloadTimedOUT = 0;
-                while(chunkDownloadTimedOUT <= 15)
+                long startTime = System.currentTimeMillis();
+                while(chunkDownloadTimedOUT <= 15 && mylock+1 == lock )
                 {
-                    if(i!=offset)
+                    long timeElapsed = (System.currentTimeMillis() - startTime )/1000;
+                    long bufferedTime = (i-startOffset)*Globals.GlobalData.videoSegmentLength;
+                    if( timeElapsed+15 < bufferedTime  )
                     {
-                        receiveSocket = new Socket(InetAddress.getByName(serverIp),serverPort);
-                        ps= new PrintStream(receiveSocket.getOutputStream());
-                        dis = new DataInputStream(receiveSocket.getInputStream());
-                        ps.print("download\r\n");
-                        ps.print(Globals.GlobalData.UserID+"\r\n");
-                        ps.print(fileName+"\r\n");
-                        ps.print("chunk"+i+"\r\n");
-                        msg=dis.readLine();
-                     }
+                        sleep(2000);
+                        continue;
+                    }
+                    receiveSocket = new Socket(InetAddress.getByName(serverIp),serverPort);
+                    ps= new PrintStream(receiveSocket.getOutputStream());
+                    dis = new DataInputStream(receiveSocket.getInputStream());
+                    ps.print("download\r\n");
+                    ps.print(Globals.GlobalData.UserID+"\r\n");
+                    ps.print(fileName+"\r\n");
+                    ps.print("chunk"+i+"\r\n");
+                    msg=dis.readLine();
                     if(msg.equalsIgnoreCase("nochunk"))//give 15 seconds for chunk download to succeed.
                     {
                         chunkDownloadTimedOUT += 2;

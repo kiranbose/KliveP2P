@@ -97,7 +97,7 @@ public class CloudConnection extends Thread{
                     Globals.log.message("CurrentStreamingChuink for "+Video+" is chunk "+currentStreamingChunk);
                     Globals.GlobalData.sendToFFMPEG.queueFileToStream(Video, currentStreamingChunk);
                     uploaddownload.ChunkCrawler crawlFrom = new ChunkCrawler(currentStreamingChunk,Video);
-                    crawlFrom.run();
+                    crawlFrom.start();
                 }
             }
         } catch (Exception e) {
