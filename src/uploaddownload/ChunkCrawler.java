@@ -60,10 +60,6 @@ public class ChunkCrawler extends Thread
                 ps.print("chunk"+i+"\r\n");
                 String msg=dis.readLine();
                 Globals.log.message("Receiving chunks for decoding ");
-                Globals.log.message("Calling Player ........");
-                SendToFFMPeg sendObj= new SendToFFMPeg(rtpCachePath.getAbsolutePath(),offset);
-                sendObj.start();
-                MediaPlayer.restartMediaPlayer();
                 int chunkDownloadTimedOUT = 0;
                 while(chunkDownloadTimedOUT <= 15)
                 {
@@ -93,7 +89,7 @@ public class ChunkCrawler extends Thread
                     int chunkSize=Integer.parseInt(dis.readLine());
                     Globals.log.message("chunk size "+chunkSize);
                     Globals.log.message("reading "+dis.readLine());//data
-                    File file = new File(rtpCachePath.getAbsolutePath()+"\\chunk"+i);
+                    File file = new File(rtpCachePath.getAbsolutePath()+"\\temp"+i);
                     FileOutputStream fo=new FileOutputStream(file);
                     int sizeRead=0;    
                     while(sizeRead!=-1)
@@ -106,6 +102,8 @@ public class ChunkCrawler extends Thread
                     fo.close();
                     ps.flush();
                     ps.close();
+                    File newFile = new File(rtpCachePath.getAbsolutePath()+"\\chunk"+i);
+                    file.renameTo(newFile);
                     receiveSocket.close();
                     i++;
                     //dis.close();

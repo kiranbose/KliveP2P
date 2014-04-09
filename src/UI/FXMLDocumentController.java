@@ -6,6 +6,7 @@
 
 package UI;
 
+import Video.MediaPlayer;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -65,6 +66,7 @@ public class FXMLDocumentController implements Initializable {
         if(evt.getClickCount() == 2)   
         {
             Globals.GlobalData.connection.requestStream(VODList.getSelectionModel().getSelectedItem().toString());           
+            MediaPlayer.restartMediaPlayer();
         }
      }
      
@@ -74,6 +76,7 @@ public class FXMLDocumentController implements Initializable {
         if(evt.getClickCount() == 2)   
         {
             Globals.GlobalData.connection.requestStream(liveStreamList.getSelectionModel().getSelectedItem().toString());           
+            MediaPlayer.restartMediaPlayer();
         }
      }
      
@@ -81,7 +84,7 @@ public class FXMLDocumentController implements Initializable {
      public void browseFile(MouseEvent evt) throws IOException
      {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Open Resource File");
+        fileChooser.setTitle("Open video File");
         File file = fileChooser.showOpenDialog(klivep2p.KliveP2P.mainStage);
         fileName.setText(file.getCanonicalPath());
      }

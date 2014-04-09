@@ -58,6 +58,7 @@ public class CloudConnection extends Thread{
             toCloud.print("control\r\n");
             toCloud.print(Globals.GlobalData.UserID+"\r\n");
             toCloud.print("getChannels\r\n");
+            toCloud.flush();
             while(true)
             {
                 String response = cloudIn.readLine();
@@ -94,6 +95,7 @@ public class CloudConnection extends Thread{
                     String Video=cloudIn.readLine();
                     int currentStreamingChunk = Integer.parseInt(cloudIn.readLine());
                     Globals.log.message("CurrentStreamingChuink for "+Video+" is chunk "+currentStreamingChunk);
+                    Globals.GlobalData.sendToFFMPEG.queueFileToStream(Video, currentStreamingChunk);
                     uploaddownload.ChunkCrawler crawlFrom = new ChunkCrawler(currentStreamingChunk,Video);
                     crawlFrom.run();
                 }
@@ -114,5 +116,6 @@ public class CloudConnection extends Thread{
         toCloud.print(filename+"\r\n");
         toCloud.print("getCurrentStreamingChunk\r\n");
         toCloud.print(filename+"\r\n");
+        toCloud.flush();
     }
 }

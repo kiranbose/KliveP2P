@@ -8,6 +8,7 @@ package Globals;
 
 import Video.VideoLibrary;
 import kliveserver.CloudConnection;
+import uploaddownload.SendToFFMPeg;
 
 /**
  * All global data will be stored here.
@@ -25,8 +26,12 @@ public class GlobalData {
     public static CloudConnection connection = null;
     public static String RTPStreamingAddress="224.1.1.2";
     public static int RTPStreamPort=9999;
+    public static int videoSegmentLength=5;//seconds
+    public static SendToFFMPeg sendToFFMPEG;
     public static void init()
     {
         videoLibrary = new VideoLibrary();
+        sendToFFMPEG = new SendToFFMPeg();
+        sendToFFMPEG.start();
     }
 }

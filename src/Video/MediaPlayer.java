@@ -14,7 +14,7 @@ import java.io.IOException;
  */
 public class MediaPlayer extends Thread{
 
-    public static Process playerProcess;
+    public static volatile Process playerProcess;
     public MediaPlayer() {
         playerProcess = null;
     }
@@ -36,7 +36,7 @@ public class MediaPlayer extends Thread{
         String cmd= "cmd /c start "+Globals.GlobalData.ffplayPath+" rtp://"+Globals.GlobalData.RTPStreamingAddress+":"+Globals.GlobalData.RTPStreamPort;
         Runtime rt= Runtime.getRuntime();
            try {
-               Process p=rt.exec(cmd);
+               playerProcess = rt.exec(cmd);
                Globals.log.message("starting media player\nffmpeg started");
                } catch (IOException ex) 
                {
