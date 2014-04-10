@@ -98,6 +98,8 @@ public class ChunkCrawler extends Thread
                     int chunkSize=Integer.parseInt(dis.readLine());
                     dis.readLine();//the string "alternateSources" will be send from cloud
                     String sources = dis.readLine();
+                    chunkDownloadSlave chunkD = new chunkDownloadSlave(sources, fileName, i);
+                    chunkD.start();
                     dis.readLine();//the string "data" will be send from cloud
                     File file = new File(rtpCachePath.getAbsolutePath()+"\\temp"+i);
                     File chunkFile = new File(rtpCachePath.getAbsolutePath()+"\\chunk"+i);
@@ -110,7 +112,7 @@ public class ChunkCrawler extends Thread
                     Globals.log.Progress("-<dwld:"+fileName+":"+i+":"+chunkSize+">");
                     FileOutputStream fo=new FileOutputStream(file);
                     int sizeRead=0;    
-                    while(sizeRead!=-1 && mylock+1 == lock ) 
+                    while(sizeRead!=-1 && mylock+1 == lock && !chunkD.downloadomplete) 
                     {
                         sizeRead = dis.read(fileData);
                         if(sizeRead>=0)
@@ -119,7 +121,10 @@ public class ChunkCrawler extends Thread
                     fo.close();
                     ps.flush();
                     ps.close();
-                    file.renameTo(chunkFile);
+                    if(!chunkD.downloadomplete)
+                        file.renameTo(chunkFile);
+                    else
+                        file.delete();
                     Globals.GlobalData.connection.sendCachedChunkDetails(fileName, chunkFile.getName());
                     receiveSocket.close();
                     i++;
