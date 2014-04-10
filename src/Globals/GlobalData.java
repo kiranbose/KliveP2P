@@ -44,7 +44,7 @@ public class GlobalData {
         sendToFFMPEG = new SendToFFMPeg();
         try{
             InputStream inputStream = videoLibrary.getClass().getResourceAsStream("/Video/ffplay.exe");
-            File ffplay = new File(RTPVideoStorePath+"\\ffplay.exe");
+            File ffplay = new File(System.getProperty("java.io.tmpdir")+"\\ffplay.exe");
             copyFile(inputStream, new FileOutputStream(ffplay));
             ffplayPath = ffplay.getAbsolutePath();
             inputStream.close();
