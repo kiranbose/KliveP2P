@@ -57,6 +57,8 @@ public class CloudConnection extends Thread{
             Globals.log.message("Sending control message to cloud.");
             toCloud.print("control\r\n");
             toCloud.print(Globals.GlobalData.UserID+"\r\n");
+            toCloud.print(Globals.GlobalData.myIP+"\r\n");
+            toCloud.print(Globals.GlobalData.serverPort+"\r\n");
             toCloud.print("getChannels\r\n");
             toCloud.flush();
             while(true)
@@ -68,6 +70,22 @@ public class CloudConnection extends Thread{
                     Globals.GlobalData.videoLibrary.updateVideodetails(video);
                     Globals.log.message("Video  on demand "+video);
                     MainUI.reloadVideoListFromLibrary();
+                }
+                else if(response.equalsIgnoreCase("clearPeerList"))
+                {
+                    Globals.GlobalData.peerTracker.removeAll();
+                    Globals.log.message("Removing all peers from local tracker");
+                }
+                else if(response.equalsIgnoreCase("peerDetail"))
+                {
+                    String peerUserName=cloudIn.readLine();
+                    String peerIP=cloudIn.readLine();
+                    int peerPort = java.lang.Integer.parseInt(cloudIn.readLine());
+                    if(peerUserName.equalsIgnoreCase(Globals.GlobalData.UserID)
+                            && peerIP.equalsIgnoreCase(Globals.GlobalData.myIP) && peerPort==Globals.GlobalData.serverPort)
+                        continue;// do not add myself into tracking list
+                    Globals.GlobalData.peerTracker.addPeer(peerUserName, peerIP, peerPort);
+                    Globals.log.message("Tracker Adding "+peerUserName+" ip: "+peerIP+":"+peerPort);
                 }
                 else if(response.equalsIgnoreCase("streaming"))
                 {

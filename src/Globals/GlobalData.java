@@ -6,6 +6,7 @@
 
 package Globals;
 
+import Tracker.PeerTracker;
 import Video.VideoLibrary;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -26,15 +27,16 @@ public class GlobalData {
     public static String ffplayPath = "Video\\ffplay.exe";
     public static String cloudIP = "";
     public static int cloudPort = 8080;
-    public static String myIP = "";
-    public static int serverPort = 8080;
+    public static volatile String myIP = "";
+    public static volatile int serverPort = 8080;
     public static boolean logEnabled = true;
-    public static VideoLibrary videoLibrary = null;
-    public static CloudConnection connection = null;
+    public static volatile VideoLibrary videoLibrary = null;
+    public static volatile CloudConnection connection = null;
     public static String RTPStreamingAddress="224.1.1.2";
     public static int RTPStreamPort=9999;
     public static int videoSegmentLength=5;//seconds
     public static SendToFFMPeg sendToFFMPEG;
+    public static volatile PeerTracker peerTracker;
     public static void init()
     {
         RTPVideoStorePath = System.getProperty("java.io.tmpdir")+"\\KliveCache";
@@ -51,6 +53,7 @@ public class GlobalData {
           e.printStackTrace();
         }
         sendToFFMPEG.start();
+        peerTracker = new PeerTracker();
     }
     private static void copyFile(InputStream in, OutputStream out) throws IOException 
     {
