@@ -63,7 +63,7 @@ public class ChunkCrawler extends Thread
                 ps.print(fileName+"\r\n");
                 ps.print("chunk"+i+"\r\n");
                 String msg=dis.readLine();
-                Globals.log.message("Receiving chunks for decoding ");
+                Globals.log.message(fileName+" receiving chunks for decoding.");
                 int chunkDownloadTimedOUT = 0;
                 long startTime = System.currentTimeMillis();
                 while(chunkDownloadTimedOUT <= 15 && mylock+1 == lock )
@@ -96,23 +96,28 @@ public class ChunkCrawler extends Thread
                     else 
                         chunkDownloadTimedOUT = 0;
                     int chunkSize=Integer.parseInt(dis.readLine());
-                    Globals.log.message("chunk size "+chunkSize);
-                    Globals.log.message("reading "+dis.readLine());//data
+                    dis.readLine();//the string "data" will be send from cloud
                     File file = new File(rtpCachePath.getAbsolutePath()+"\\temp"+i);
+                    File chunkFile = new File(rtpCachePath.getAbsolutePath()+"\\chunk"+i);
+                    if(chunkFile.exists() &&  chunkFile.isFile() && chunkFile.length()==chunkSize )
+                    {
+                        Globals.log.Progress("-<cached:"+fileName+":"+i+">");
+                        i++;
+                        continue;
+                    }
+                    Globals.log.Progress("-<dwld:"+fileName+":"+i+":"+chunkSize+">");
                     FileOutputStream fo=new FileOutputStream(file);
                     int sizeRead=0;    
-                    while(sizeRead!=-1)
+                    while(sizeRead!=-1 && mylock+1 == lock ) 
                     {
                         sizeRead = dis.read(fileData);
                         if(sizeRead>=0)
                         fo.write(fileData,0,sizeRead);
                     }
-                    Globals.log.message("Chunk"+i+" decoding complete ");
                     fo.close();
                     ps.flush();
                     ps.close();
-                    File newFile = new File(rtpCachePath.getAbsolutePath()+"\\chunk"+i);
-                    file.renameTo(newFile);
+                    file.renameTo(chunkFile);
                     receiveSocket.close();
                     i++;
                     //dis.close();

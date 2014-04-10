@@ -103,7 +103,7 @@ public class SendToFFMPeg extends Thread
                         tStart = System.currentTimeMillis();
                     }
                     chunkTimeout = 0;
-                    Globals.log.Progress("-"+fileName+":" +chunk);
+                    Globals.log.Progress("-<stream:"+fileName+":" +chunk+">");
                     streamChunk(fileName, chunk);
                     chunk++;
                 }
