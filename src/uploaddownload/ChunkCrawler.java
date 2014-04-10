@@ -82,7 +82,7 @@ public class ChunkCrawler extends Thread
                     ps.print(Globals.GlobalData.UserID+"\r\n");
                     ps.print(fileName+"\r\n");
                     ps.print("chunk"+i+"\r\n");
-                    msg=dis.readLine();
+                    msg=dis.readLine(); //chunksize or nochunk string
                     if(msg.equalsIgnoreCase("nochunk"))//give 15 seconds for chunk download to succeed.
                     {
                         chunkDownloadTimedOUT += 2;
@@ -96,6 +96,8 @@ public class ChunkCrawler extends Thread
                     else 
                         chunkDownloadTimedOUT = 0;
                     int chunkSize=Integer.parseInt(dis.readLine());
+                    dis.readLine();//the string "alternateSources" will be send from cloud
+                    String sources = dis.readLine();
                     dis.readLine();//the string "data" will be send from cloud
                     File file = new File(rtpCachePath.getAbsolutePath()+"\\temp"+i);
                     File chunkFile = new File(rtpCachePath.getAbsolutePath()+"\\chunk"+i);
@@ -118,6 +120,7 @@ public class ChunkCrawler extends Thread
                     ps.flush();
                     ps.close();
                     file.renameTo(chunkFile);
+                    Globals.GlobalData.connection.sendCachedChunkDetails(fileName, chunkFile.getName());
                     receiveSocket.close();
                     i++;
                     //dis.close();

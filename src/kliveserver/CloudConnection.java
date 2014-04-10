@@ -18,6 +18,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import uploaddownload.ChunkCrawler;
@@ -59,6 +60,7 @@ public class CloudConnection extends Thread{
             toCloud.print(Globals.GlobalData.UserID+"\r\n");
             toCloud.print(Globals.GlobalData.myIP+"\r\n");
             toCloud.print(Globals.GlobalData.serverPort+"\r\n");
+            sendCachedChunkDetails();
             toCloud.print("getChannels\r\n");
             toCloud.flush();
             while(true)
@@ -135,5 +137,26 @@ public class CloudConnection extends Thread{
         toCloud.print("getCurrentStreamingChunk\r\n");
         toCloud.print(filename+"\r\n");
         toCloud.flush();
+    }
+    public void sendCachedChunkDetails() 
+    {
+        Globals.log.message("sending cached chunk details");
+        ArrayList chinksAndFiles = Globals.GlobalData.videoLibrary.getCachedChunksAndFile();
+        for(int i=0;i<chinksAndFiles.size();i+=2)
+        {
+            toCloud.print("cachedVideoChunks\r\n");
+            toCloud.print(chinksAndFiles.get(i)+"\r\n");//file name
+            toCloud.print(chinksAndFiles.get(i+1)+"\r\n");//chunk list
+            Globals.log.message(chinksAndFiles.get(i).toString());
+            Globals.log.message(chinksAndFiles.get(i+1).toString());
+        }
+        toCloud.flush();
+    }
+    public void sendCachedChunkDetails(String fileName,String chunkName) 
+    {
+        Globals.log.message("tracker cached chunk "+fileName+" "+chunkName);
+        toCloud.print("cachedVideoChunks\r\n");
+        toCloud.print(fileName+"\r\n");//file name
+        toCloud.print(chunkName+"\r\n");//chunk list
     }
 }

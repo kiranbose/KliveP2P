@@ -11,6 +11,7 @@ package Video;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.ArrayList;
 import java.util.Vector;
 
 /**
@@ -50,6 +51,46 @@ public class VideoLibrary {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+    
+    public ArrayList getCachedChunksAndFile()
+    {
+        ArrayList<String> chunksAndFiles = new ArrayList<>();
+        try {
+            File rtpVideoFolder= new File(Globals.GlobalData.RTPVideoStorePath);
+            if(!rtpVideoFolder.exists())
+            {
+                rtpVideoFolder.mkdirs();
+                Globals.log.message("created RTPVideo cache Store at : "+rtpVideoFolder.getCanonicalPath());
+            }
+            if(rtpVideoFolder.list().length>0)
+            {
+                for(final File fileEntry : rtpVideoFolder.listFiles())
+                {
+                    if(fileEntry.isFile())
+                        continue;
+                    String chunkList ="";
+                    for(final File video : fileEntry.listFiles())
+                    {
+                        if(video.getName().startsWith("chunk"))
+                            chunkList+=video.getName()+" ";
+                    }
+                    if(!chunkList.isEmpty())
+                    {
+                        chunksAndFiles.add(fileEntry.getName());
+                        chunksAndFiles.add(chunkList);
+                    }
+                }
+            }
+            else
+            {
+                Globals.log.error(rtpVideoFolder.getCanonicalPath()+ " rtp cache folder is empty.");
+            }
+            
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return chunksAndFiles;
     }
     
     public void addVideo(String filePath)
