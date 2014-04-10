@@ -95,6 +95,23 @@
         </Text>
       </children>
     </VBox>
+    <VBox id="VBox" alignment="CENTER" spacing="5.0" AnchorPane.bottomAnchor="71.0" AnchorPane.leftAnchor="55.0">
+      <children>
+          <Text fx:id="selectNIF"  text="Select Network Interface Address" visible="true">
+          <effect>
+            <Glow level="0.41949685534591197" />
+          </effect>
+          <font>
+            <Font name="MyriadPro-Regular" size="12.0" />
+          </font>
+        </Text>
+        <ComboBox fx:id="networkInterfaces" opacity="0.67" prefWidth="183.87890625" promptText="localhost">
+          <effect>
+            <ColorAdjust brightness="-0.01526717557251911" contrast="-0.06106870229007633" hue="0.2137404580152671" saturation="-0.5496183206106872" />
+          </effect>
+        </ComboBox >
+      </children>
+    </VBox>
   </children>
   <stylesheets>
     <URL value="@loginscreen.css" />
