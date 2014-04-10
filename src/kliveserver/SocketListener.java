@@ -15,13 +15,28 @@ import java.net.Socket;
  * @author Kiran
  */
 public class SocketListener extends Thread{
-    int port;
+    
     @Override
     public void run() {
         super.run(); //To change body of generated methods, choose Tools | Templates.
         try{
-            ServerSocket server = new ServerSocket(port);
-            Globals.log.message("kLiveP2P started on port "+port);
+            ServerSocket server = null;
+            boolean serverBound = false;
+            while(!serverBound)
+            {
+                try{
+                    server = new ServerSocket(Globals.GlobalData.serverPort);
+                    serverBound = true;
+                    
+                }
+                catch(Exception e)
+                {
+                    Globals.log.error("port already bound "+Globals.GlobalData.serverPort);
+                    Globals.GlobalData.serverPort++;
+                    continue;
+                }
+            }
+            Globals.log.message("kLiveP2P started on port "+Globals.GlobalData.serverPort);
             Socket clientSocket;
             DataInputStream dis;
             while(true)
@@ -51,11 +66,5 @@ public class SocketListener extends Thread{
             e.printStackTrace();
         }   
 
-    }
-    
-    public void StartServerOn(int port)
-    {
-        this.port = port;
-        start();
     }
 }

@@ -30,7 +30,7 @@ public class KliveP2P extends Application {
         Globals.GlobalData.init();
         SocketListener server = new SocketListener();
         server.setDaemon(true);
-        server.StartServerOn(Globals.GlobalData.serverPort);
+        server.start();
         LoginScreen login = new LoginScreen();
         login.show();
         System.err.println("asfjfkfvkudsagljgsadljfgdsljfgjdsa");

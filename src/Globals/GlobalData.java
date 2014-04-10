@@ -20,6 +20,7 @@ public class GlobalData {
     public static String ffplayPath = "C:\\Users\\home\\Documents\\ffmpeg\\bin\\ffplay.exe";
     public static String cloudIP = "";
     public static int cloudPort = 8080;
+    public static String myIP = "";
     public static int serverPort = 8080;
     public static boolean logEnabled = true;
     public static VideoLibrary videoLibrary = null;
@@ -30,6 +31,7 @@ public class GlobalData {
     public static SendToFFMPeg sendToFFMPEG;
     public static void init()
     {
+        RTPVideoStorePath = System.getProperty("java.io.tmpdir")+"\\KliveCache";
         videoLibrary = new VideoLibrary();
         sendToFFMPEG = new SendToFFMPeg();
         sendToFFMPEG.start();
